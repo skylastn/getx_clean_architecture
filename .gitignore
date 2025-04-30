@@ -62,3 +62,4 @@ lib/firebase_options.dart
 .freezed.dart
 *.g.dart
 *.freezed.dart
+ios/Runner/GoogleService-Info.plist
