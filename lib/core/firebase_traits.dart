@@ -7,7 +7,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:lugu_pet/core/dependency_injection.dart';
 import 'package:lugu_pet/firebase_options.dart';
-import 'package:refreshed/refreshed.dart';
+import 'package:get/get.dart';
 import '../utility/shared/notif/notif.dart';
 
 // import 'notification_services.dart';

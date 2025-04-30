@@ -1,6 +1,6 @@
 // ignore_for_file: constant_identifier_names
 
-import 'package:refreshed/refreshed.dart';
+import 'package:get/get.dart';
 
 import '../features/core/presentation/homepage/home_binding.dart';
 import '../features/core/presentation/homepage/home_view.dart';

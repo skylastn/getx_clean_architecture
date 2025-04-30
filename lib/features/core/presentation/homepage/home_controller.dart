@@ -1,15 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:lugu_pet/features/core/application/komik_service.dart';
-import 'package:refreshed/refreshed.dart';
+import 'package:get/get.dart';
 import 'home_state.dart';
 
 class HomeController extends GetxController {
   HomeState state = HomeState();
-
-  @override
-  void onInit() {
-    super.onInit();
-  }
 
   @override
   void onReady() {

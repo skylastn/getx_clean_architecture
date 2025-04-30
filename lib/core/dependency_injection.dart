@@ -1,4 +1,4 @@
-import 'package:refreshed/refreshed.dart';
+import 'package:get/get.dart';
 import '../app/global/controller/global_controller.dart';
 // import '../app/global/local_controller.dart';
 

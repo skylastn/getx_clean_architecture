@@ -1,7 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:isar/isar.dart';
 import 'package:lugu_pet/app/global/controller/local_controller.dart';
-import 'package:refreshed/refreshed.dart';
+import 'package:get/get.dart';
 
 import '../../../../app/common/exception.dart';
 import '../model/recent_chapter_komik_model.dart';

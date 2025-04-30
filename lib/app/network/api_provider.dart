@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/foundation.dart';
-import 'package:refreshed/refreshed.dart';
+import 'package:get/get.dart';
 import '../../core/env.dart';
 import 'package:http/http.dart' as http;
 import '../../core/session.dart';

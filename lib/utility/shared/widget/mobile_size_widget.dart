@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:refreshed/refreshed.dart';
+import 'package:get/get.dart';
 import '../size/device_size.dart';
 
 class MobileSizeWidget extends StatelessWidget {

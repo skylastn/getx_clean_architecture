@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:refreshed/refreshed.dart';
+import 'package:get/get.dart';
 import 'app_pages.dart';
 import 'app_provider.dart';
 import 'app_store_application.dart';
@@ -22,7 +22,8 @@ class AppComponent extends StatelessWidget {
       enableLog: kDebugMode,
       initialRoute: AppPages.INITIAL,
       getPages: AppPages.routes,
-      binds: AppBinding.listInitialBinding,
+      initialBinding: AppBinding(),
+      // binds: AppBinding.listInitialBinding,
       theme: ThemeData(
         primarySwatch: Colors.blue,
         useMaterial3: true,

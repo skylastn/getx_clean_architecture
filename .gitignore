@@ -57,3 +57,8 @@ android/app/google-services.json
 firebase.json
 Makefile
 lib/firebase_options.dart
+
+.g.dart
+.freezed.dart
+*.g.dart
+*.freezed.dart

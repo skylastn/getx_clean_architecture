@@ -1,4 +1,4 @@
-import 'package:refreshed/refreshed.dart';
+import 'package:get/get.dart';
 import '../utility/log/log.dart';
 import 'application.dart';
 import 'env.dart';

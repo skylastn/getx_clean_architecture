@@ -15,8 +15,8 @@ class KomikRemoteDataSource {
         return '${url}komiku';
       case BEType.film:
         return '${url}komiku';
-      default:
-        return '${url}komiku';
+      // default:
+      //   return '${url}komiku';
     }
   }
 

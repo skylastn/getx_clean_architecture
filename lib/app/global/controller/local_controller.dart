@@ -1,6 +1,6 @@
 import 'dart:io';
 import 'package:isar/isar.dart';
-import 'package:refreshed/refreshed.dart';
+import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:path_provider/path_provider.dart';
 

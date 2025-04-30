@@ -1,5 +1,5 @@
 import 'package:logging/logging.dart';
-import 'package:refreshed/refreshed.dart';
+import 'package:get/get.dart';
 
 class Log {
   static const String _name = 'Logger';

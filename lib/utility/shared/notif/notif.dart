@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:refreshed/refreshed.dart';
+import 'package:get/get.dart';
 
 import '../../../core/session.dart';
 
@@ -30,25 +30,26 @@ class Notif {
         AndroidInitializationSettings('launcher_icon');
 
     final DarwinInitializationSettings initializationSettingsIOS =
-        DarwinInitializationSettings(
-            requestAlertPermission: false,
-            requestBadgePermission: false,
-            requestSoundPermission: false,
-            onDidReceiveLocalNotification: (
-              int id,
-              String? title,
-              String? body,
-              String? payload,
-            ) async {
-              // didReceiveLocalNotificationSubject.add(
-              //   ReceivedNotification(
-              //     id: id,
-              //     title: title,
-              //     body: body,
-              //     payload: payload,
-              //   ),
-              // );
-            });
+        const DarwinInitializationSettings(
+      requestAlertPermission: false,
+      requestBadgePermission: false,
+      requestSoundPermission: false,
+      // onDidReceiveLocalNotification: (
+      //   int id,
+      //   String? title,
+      //   String? body,
+      //   String? payload,
+      // ) async {
+      //   // didReceiveLocalNotificationSubject.add(
+      //   //   ReceivedNotification(
+      //   //     id: id,
+      //   //     title: title,
+      //   //     body: body,
+      //   //     payload: payload,
+      //   //   ),
+      //   // );
+      // }
+    );
     final LinuxInitializationSettings initializationSettingsLinux =
         LinuxInitializationSettings(
       defaultActionName: 'Open notification',

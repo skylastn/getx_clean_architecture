@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:refreshed/refreshed.dart';
+import 'package:get/get.dart';
 import '../app/global/controller/local_controller.dart';
 import '../utility/shared/notif/notif.dart';
 import 'app_component.dart';

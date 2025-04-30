@@ -1,5 +1,5 @@
 import 'package:dartz/dartz.dart';
-import 'package:refreshed/instance_manager.dart';
+import 'package:get/instance_manager.dart';
 import '../../../app/common/exception.dart';
 import '../domain/interface/komik_repository_base.dart';
 import '../infrastructure/model/komik_response.dart';

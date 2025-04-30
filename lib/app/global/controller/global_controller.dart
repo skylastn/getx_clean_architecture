@@ -1,7 +1,7 @@
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:lugu_pet/app/global/controller/local_controller.dart';
 // import 'package:package_info_plus/package_info_plus.dart';
-import 'package:refreshed/refreshed.dart';
+import 'package:get/get.dart';
 import '../../../core/session.dart';
 import '../../../utility/shared/notif/notif.dart';
 

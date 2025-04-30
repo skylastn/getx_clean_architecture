@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:refreshed/refreshed.dart';
+import 'package:get/get.dart';
 
 class DeviceSize {
   static double getMobileSize() {

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:refreshed/refreshed.dart';
+import 'package:get/get.dart';
 
 class Toast {
   static void showInfoSnackbar({
@@ -11,7 +11,7 @@ class Toast {
       backgroundColor: Colors.greenAccent,
       colorText: Colors.white,
       overlayColor: Colors.greenAccent,
-      snackStyle: SnackStyle.floating,
+      snackStyle: SnackStyle.FLOATING,
       animationDuration: const Duration(seconds: 2),
       duration: const Duration(seconds: 2),
       icon: const Icon(Icons.info),

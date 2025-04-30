@@ -1,14 +1,15 @@
-import 'package:refreshed/refreshed.dart';
+import 'package:get/get.dart';
 
 import 'home_controller.dart';
 
-class HomeBinding extends Binding {
+class HomeBinding extends Bindings {
   @override
-  List<Bind> dependencies() {
-    return [
-      Bind.lazyPut<HomeController>(
-        () => HomeController(),
-      ),
-    ];
+  void dependencies() {
+    Get.lazyPut<HomeController>(() => HomeController());
+    // return [
+    //   Bind.lazyPut<HomeController>(
+    //     () => HomeController(),
+    //   ),
+    // ];
   }
 }
