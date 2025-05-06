@@ -1,6 +1,6 @@
 {
-    "name": "lugu_pet",
-    "short_name": "lugu_pet",
+    "name": "sample_app",
+    "short_name": "sample_app",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

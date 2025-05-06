@@ -1,7 +1,7 @@
 import 'package:carousel_slider_x/carousel_slider_x.dart';
 import 'package:flutter/material.dart';
-import 'package:lugu_pet/app/global/model/content_model.dart';
-import 'package:lugu_pet/utility/shared/widget/mobile_size_widget.dart';
+import 'package:sample_app/app/global/model/content_model.dart';
+import 'package:sample_app/utility/shared/widget/mobile_size_widget.dart';
 import 'package:get/get.dart';
 import '../../../../app/theme/style.dart';
 import 'home_controller.dart';

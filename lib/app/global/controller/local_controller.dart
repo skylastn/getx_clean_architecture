@@ -14,13 +14,13 @@ class LocalController extends GetxController {
 
   Future<void> initLocalDatabase() async {
     storage = await SharedPreferences.getInstance();
-    dir = await getApplicationDocumentsDirectory();
-    db = await Isar.open(
-      [
-        RecentChapterKomikModelSchema,
-      ],
-      directory: dir.path,
-    );
+    // dir = await getApplicationDocumentsDirectory();
+    // db = await Isar.open(
+    //   [
+    //     RecentChapterKomikModelSchema,
+    //   ],
+    //   directory: dir.path,
+    // );
     Get.log('Isar Open');
   }
 }

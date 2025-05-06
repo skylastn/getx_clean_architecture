@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
-import 'package:lugu_pet/app/global/controller/local_controller.dart';
+import 'package:sample_app/app/global/controller/local_controller.dart';
 import 'package:get/get.dart';
 import 'package:universal_html/html.dart' as html;
 import 'env.dart';

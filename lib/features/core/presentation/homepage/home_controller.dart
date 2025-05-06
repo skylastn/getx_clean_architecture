@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lugu_pet/features/core/application/komik_service.dart';
+import 'package:sample_app/features/core/application/komik_service.dart';
 import 'package:get/get.dart';
 import 'home_state.dart';
 

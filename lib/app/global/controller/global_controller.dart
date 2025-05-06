@@ -1,5 +1,5 @@
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:lugu_pet/app/global/controller/local_controller.dart';
+import 'package:sample_app/app/global/controller/local_controller.dart';
 // import 'package:package_info_plus/package_info_plus.dart';
 import 'package:get/get.dart';
 import '../../../core/session.dart';

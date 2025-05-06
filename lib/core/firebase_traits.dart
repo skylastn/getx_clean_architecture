@@ -5,8 +5,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
-import 'package:lugu_pet/core/dependency_injection.dart';
-import 'package:lugu_pet/firebase_options.dart';
+import 'package:sample_app/core/dependency_injection.dart';
+import 'package:sample_app/firebase_options.dart';
 import 'package:get/get.dart';
 import '../utility/shared/notif/notif.dart';
 
@@ -79,10 +79,10 @@ class FirebaseTraits {
 
 @pragma('vm:entry-point')
 Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-  await DenpendencyInjection.init();
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
+  // await DenpendencyInjection.init();
+  // await Firebase.initializeApp(
+  //   options: DefaultFirebaseOptions.currentPlatform,
+  // );
   // Get.lazyPut(() => GlobalVariables());
   // await setupLocalNotifications();
   if (kDebugMode) {
