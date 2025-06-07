@@ -4,7 +4,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:sample_app/app/global/controller/local_controller.dart';
 import 'package:get/get.dart';
-import 'package:universal_html/html.dart' as html;
+// import 'package:universal_html/html.dart' as html;
 import 'env.dart';
 
 class Session {
@@ -73,10 +73,10 @@ class Session {
       return temp;
     } catch (e) {
       Get.log('error init Fcm Token : $e');
-      if (kIsWeb && kDebugMode) {
-        await Future.delayed(const Duration(seconds: 1));
-        html.window.location.reload();
-      }
+      // if (kIsWeb && kDebugMode) {
+      //   await Future.delayed(const Duration(seconds: 1));
+      //   html.window.location.reload();
+      // }
       return '';
     }
   }

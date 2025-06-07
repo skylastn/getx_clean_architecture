@@ -20,7 +20,7 @@ class GlobalController extends GetxController {
     initFirstTime();
   }
 
-  initFirstTime() async {
+  Future<void> initFirstTime() async {
     if (GetPlatform.isMacOS || GetPlatform.isIOS) {
       await flutterLocalNotificationsPlugin
           .resolvePlatformSpecificImplementation<
@@ -42,7 +42,7 @@ class GlobalController extends GetxController {
     await initData();
   }
 
-  initData() async {
+  Future<void> initData() async {
     Session().initFcmToken().then((value) => fcmToken.value = value);
     // await getMyProfile();
     // await versionCheck();

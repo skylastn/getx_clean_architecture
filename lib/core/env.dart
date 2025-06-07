@@ -75,7 +75,7 @@ class Env {
     );
   }
 
-  initAllPackage() async {
+  Future<void> initAllPackage() async {
     WidgetsFlutterBinding.ensureInitialized();
     Get.put(LocalController(), permanent: true);
     await Get.find<LocalController>().initLocalDatabase();

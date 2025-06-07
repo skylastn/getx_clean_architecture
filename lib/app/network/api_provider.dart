@@ -29,7 +29,7 @@ class ApiProvider {
             .post(
               Uri.parse(urlS),
               body: jsonEncode(body),
-              headers: (header) ? await headerLogin() : headerNormal(),
+              headers: (header) ? headerLogin() : headerNormal(),
             )
             .timeout(Duration(seconds: timeOut));
       } else {
@@ -37,7 +37,7 @@ class ApiProvider {
             .post(
               Uri.parse(urlS),
               body: jsonEncode(body),
-              headers: (header) ? await headerLogin() : headerNormal(),
+              headers: (header) ? headerLogin() : headerNormal(),
             )
             .timeout(Duration(seconds: timeOut));
       }
@@ -101,7 +101,7 @@ class ApiProvider {
             .get(
               Uri.parse(urlS),
               // query: query,
-              headers: (header) ? await headerLogin() : headerNormal(),
+              headers: (header) ? headerLogin() : headerNormal(),
             )
             .timeout(Duration(seconds: timeOut));
       } else {
@@ -109,7 +109,7 @@ class ApiProvider {
             .get(
               Uri.parse(urlS),
               // query: query,
-              headers: (header) ? await headerLogin() : headerNormal(),
+              headers: (header) ? headerLogin() : headerNormal(),
             )
             .timeout(Duration(seconds: timeOut));
       }
@@ -163,7 +163,7 @@ class ApiProvider {
             .patch(
               Uri.parse(urlS),
               body: jsonEncode(body),
-              headers: (header) ? await headerLogin() : headerNormal(),
+              headers: (header) ? headerLogin() : headerNormal(),
             )
             .timeout(Duration(seconds: timeOut));
       } else {
@@ -171,7 +171,7 @@ class ApiProvider {
             .patch(
               Uri.parse(urlS),
               body: jsonEncode(body),
-              headers: (header) ? await headerLogin() : headerNormal(),
+              headers: (header) ? headerLogin() : headerNormal(),
             )
             .timeout(Duration(seconds: timeOut));
       }
@@ -228,7 +228,7 @@ class ApiProvider {
             .delete(
               Uri.parse(urlS),
               body: jsonEncode(body),
-              headers: (header) ? await headerLogin() : headerNormal(),
+              headers: (header) ? headerLogin() : headerNormal(),
             )
             .timeout(Duration(seconds: timeOut));
       } else {
@@ -236,7 +236,7 @@ class ApiProvider {
             .delete(
               Uri.parse(urlS),
               body: jsonEncode(body),
-              headers: (header) ? await headerLogin() : headerNormal(),
+              headers: (header) ? headerLogin() : headerNormal(),
             )
             .timeout(Duration(seconds: timeOut));
       }
@@ -322,7 +322,7 @@ class ApiProvider {
   //   }
   // }
 
-  headerLogin() {
+  Map<String, String>? headerLogin() {
     return {
       'Authorization': 'Bearer ${Session().getToken()}',
       'Content-Type': 'application/json',
@@ -330,14 +330,14 @@ class ApiProvider {
     };
   }
 
-  headerNormal() {
+  Map<String, String>? headerNormal() {
     return {
       'Content-Type': 'application/json',
       'Accept': 'application/json',
     };
   }
 
-  headerFCM() {
+  Map<String, String>? headerFCM() {
     return {
       // 'Authorization': 'key=$apiKeyFcm',
       'Content-Type': 'application/json',
@@ -345,7 +345,7 @@ class ApiProvider {
     };
   }
 
-  headerImage() {
+  Map<String, String>? headerImage() {
     return {
       'Authorization': 'Bearer ${Session().getToken()}',
       // 'Content-Type': 'application/json',
