@@ -16,7 +16,6 @@ A production-ready Flutter template demonstrating **Clean Architecture** powered
 - **GetX Pattern**: Separation of concerns using `Logic`, `State`, and `UI` (`GetView`).
 - **Single Entrypoint**: Unified `lib/main.dart` configured via `--dart-define` or `.env`.
 - **Play Store Ready**: Android SDK 36 (AGP 9.1.0, Gradle 9.3.1, Java 21, Kotlin 2.4.0).
-- **Zero Firebase Dependency**: Fully offline-capable local notifications (`flutter_local_notifications` 22.x).
 - **Flavored Setup**: Built-in `development` and `production` Android flavors.
 
 ---
