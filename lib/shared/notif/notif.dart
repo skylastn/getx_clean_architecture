@@ -1,11 +1,10 @@
 import 'dart:io';
 
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 
-import '../../../core/session.dart';
+import '../../core/session.dart';
 
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
@@ -34,21 +33,6 @@ class Notif {
       requestAlertPermission: false,
       requestBadgePermission: false,
       requestSoundPermission: false,
-      // onDidReceiveLocalNotification: (
-      //   int id,
-      //   String? title,
-      //   String? body,
-      //   String? payload,
-      // ) async {
-      //   // didReceiveLocalNotificationSubject.add(
-      //   //   ReceivedNotification(
-      //   //     id: id,
-      //   //     title: title,
-      //   //     body: body,
-      //   //     payload: payload,
-      //   //   ),
-      //   // );
-      // }
     );
     final LinuxInitializationSettings initializationSettingsLinux =
         LinuxInitializationSettings(
@@ -62,24 +46,24 @@ class Notif {
       macOS: initializationSettingsIOS,
       linux: initializationSettingsLinux,
     );
-    await flutterLocalNotificationsPlugin.initialize(initializationSettings,
-        onDidReceiveNotificationResponse:
-            (NotificationResponse notificationResponse) async {
+    await flutterLocalNotificationsPlugin.initialize(
+      settings: initializationSettings,
+      onDidReceiveNotificationResponse:
+          (NotificationResponse notificationResponse) async {
       if ((notificationResponse.payload ?? '').isNotEmpty) {
         Get.log('notification payload: $notificationResponse.payload');
-        // Get.find<NotificationController>().initPayload(payload);
+        // Get.find<NotificationLogic>().initPayload(payload);
       }
       // selectedNotificationPayload = payload;
       // selectNotificationSubject.add(payload);
     });
   }
 
-  Future<void> showNotification(RemoteMessage? message) async {
-    // RemoteNotification? notification = message?.notification;
-    Map<String, dynamic> data = message?.data ?? {};
-    String? title = data['title'] ?? '';
-    String? body = data['body'] ?? '';
-
+  Future<void> showNotification({
+    String? title,
+    String? body,
+    String payload = '',
+  }) async {
     const AndroidNotificationDetails androidplatformChannelSpecifics =
         AndroidNotificationDetails(
       'your channel id',
@@ -96,13 +80,12 @@ class Notif {
       android: androidplatformChannelSpecifics,
       iOS: iOSplatformChannelSpecifics,
     );
-    String payload = message?.data['type'] ?? '';
 
     await flutterLocalNotificationsPlugin.show(
-      await Session().getidNotif(),
-      title,
-      body,
-      platformChannelSpecifics,
+      id: await Session().getidNotif(),
+      title: title,
+      body: body,
+      notificationDetails: platformChannelSpecifics,
       payload: payload,
     );
   }

@@ -1,13 +1,13 @@
 // import 'package:dartz/dartz.dart';
 // import 'package:isar/isar.dart';
-// import 'package:sample_app/app/global/controller/local_controller.dart';
+// import 'package:sample_app/app/global/logic/local_logic.dart';
 // import 'package:get/get.dart';
 
 // import '../../../../app/common/exception.dart';
-// import '../model/recent_chapter_komik_model.dart';
+// import '../../domain/model/recent_chapter_komik_model.dart';
 
 // class KomikLocalDataSource {
-//   final db = Get.find<LocalController>().db;
+//   final db = Get.find<LocalLogic>().db;
 
 //   Stream<List<RecentChapterKomikModel>> getRecentChapterKomik({
 //     required String slug,

@@ -1,18 +1,16 @@
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:sample_app/app/global/controller/local_controller.dart';
+import 'local_logic.dart';
 // import 'package:package_info_plus/package_info_plus.dart';
 import 'package:get/get.dart';
-import '../../../core/session.dart';
-import '../../../utility/shared/notif/notif.dart';
+import '../../../shared/notif/notif.dart';
 
-class GlobalController extends GetxController {
+class GlobalLogic extends GetxController {
   RxBool isUserLogin = false.obs;
-  LocalController localCtrl = Get.find<LocalController>();
+  LocalLogic localCtrl = Get.find<LocalLogic>();
   RxString versiApk = ''.obs,
       versiServer = ''.obs,
       nobuild = ''.obs,
-      urlApk = ''.obs,
-      fcmToken = ''.obs;
+      urlApk = ''.obs;
 
   @override
   void onInit() {
@@ -43,7 +41,6 @@ class GlobalController extends GetxController {
   }
 
   Future<void> initData() async {
-    Session().initFcmToken().then((value) => fcmToken.value = value);
     // await getMyProfile();
     // await versionCheck();
     await Future.delayed(const Duration(seconds: 1));

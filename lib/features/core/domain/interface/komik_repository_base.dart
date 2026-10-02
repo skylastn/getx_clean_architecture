@@ -1,7 +1,7 @@
 import 'package:dartz/dartz.dart';
 
 import '../../../../app/common/exception.dart';
-import '../../infrastructure/model/komik_response.dart';
+import '../../domain/model/response/komik_response.dart';
 
 abstract class KomikRepositoryBase {
   // Stream<List<RecentChapterKomikModel>> getRecentChapterKomik({

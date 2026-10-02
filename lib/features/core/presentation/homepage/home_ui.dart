@@ -1,18 +1,18 @@
 import 'package:carousel_slider_x/carousel_slider_x.dart';
 import 'package:flutter/material.dart';
-import 'package:sample_app/app/global/model/content_model.dart';
-import 'package:sample_app/utility/shared/widget/mobile_size_widget.dart';
+import '../../../../app/global/model/content_model.dart';
+import '../../../../shared/widget/mobile_size_widget.dart';
 import 'package:get/get.dart';
 import '../../../../app/theme/style.dart';
-import 'home_controller.dart';
+import 'home_logic.dart';
 import 'home_state.dart';
 
-class HomeView extends GetView<HomeController> {
-  HomeView({super.key});
-  final state = Get.find<HomeController>().state;
+class HomePage extends GetView<HomeLogic> {
+  HomePage({super.key});
+  final state = Get.find<HomeLogic>().state;
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<HomeController>(
+    return GetBuilder<HomeLogic>(
       builder: (_) {
         return MobileSizeWidget(
           padding: EdgeInsets.zero,

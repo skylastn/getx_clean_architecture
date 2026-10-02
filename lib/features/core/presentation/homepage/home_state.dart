@@ -1,8 +1,7 @@
 import '../../../../app/global/model/content_model.dart';
-import '../../infrastructure/model/komik_response.dart';
+import '../../domain/model/response/komik_response.dart';
 
 class HomeState {
-  
   List<DataKomik> listPopularKomik = [];
 
   List<String> imageList = [

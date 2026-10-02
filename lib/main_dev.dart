@@ -24,10 +24,6 @@ class Development extends Env {
   final String logo = 'assets/images/logo.png';
 
   @override
-  final String vapidKey =
-      'BMgQNKaJ9qiy-bmreSvkMkVggn7vxKu-vMCw5Iyi1_Cp7W-jIT2JAsGm8mZ1GbhLqauy7P2VeWh53jPcbJFYMdw';
-
-  @override
   final String websocket =
       'wss://demo.id/websocket'; // socket.io reject connecting so websocket handle it
   @override

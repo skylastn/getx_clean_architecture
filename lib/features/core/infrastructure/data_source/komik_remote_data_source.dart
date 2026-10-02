@@ -1,9 +1,10 @@
 import 'dart:convert';
 
 import 'package:dartz/dartz.dart';
-import 'package:sample_app/app/common/exception.dart';
-import 'package:sample_app/app/network/api_provider.dart';
-import 'package:sample_app/features/core/infrastructure/model/komik_response.dart';
+import '../../../../app/common/exception.dart';
+import '../../../../app/network/api_provider.dart';
+
+import '../../domain/model/response/komik_response.dart';
 
 class KomikRemoteDataSource {
   String getBaseUrl(BEType type) {

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:sample_app/features/core/application/komik_service.dart';
+import '../../application/komik_service.dart';
 import 'package:get/get.dart';
 import 'home_state.dart';
 
-class HomeController extends GetxController {
+class HomeLogic extends GetxController {
   HomeState state = HomeState();
 
   @override

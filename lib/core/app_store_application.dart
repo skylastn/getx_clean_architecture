@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import '../utility/log/log.dart';
+import '../shared/log/log.dart';
 import 'application.dart';
 import 'env.dart';
 import 'package:logging/logging.dart';

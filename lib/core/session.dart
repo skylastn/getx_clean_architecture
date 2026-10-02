@@ -1,14 +1,9 @@
-import 'dart:io';
-
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
-import 'package:sample_app/app/global/controller/local_controller.dart';
+import '../app/global/logic/local_logic.dart';
 import 'package:get/get.dart';
-// import 'package:universal_html/html.dart' as html;
-import 'env.dart';
 
 class Session {
-  var storage = Get.find<LocalController>().storage;
+  var storage = Get.find<LocalLogic>().storage;
 
   Future<void> saveAuth(bool value) async {
     await storage.setBool('isAuth', value);
@@ -45,41 +40,6 @@ class Session {
   //   }
   //   return UserModel.fromJson(jsonDecode(temp));
   // }
-
-  Future<void> saveFcmToken(String loginType) async {
-    await storage.setString('fcmToken', loginType);
-  }
-
-  Future<String> initFcmToken() async {
-    try {
-      if (!kIsWeb &&
-          (Platform.isWindows || Platform.isFuchsia || Platform.isLinux)) {
-        return '';
-      }
-      NotificationSettings settings =
-          await FirebaseMessaging.instance.requestPermission();
-      Get.log(settings.authorizationStatus.name);
-
-      String temp = storage.getString('fcmToken') ?? '';
-      if (temp.isEmpty) {
-        Get.log(Env.value.vapidKey);
-        temp = await FirebaseMessaging.instance.getToken(
-              vapidKey: (kIsWeb) ? Env.value.vapidKey : null,
-            ) ??
-            '';
-        saveFcmToken(temp);
-      }
-      Get.log('Token Fcm : $temp');
-      return temp;
-    } catch (e) {
-      Get.log('error init Fcm Token : $e');
-      // if (kIsWeb && kDebugMode) {
-      //   await Future.delayed(const Duration(seconds: 1));
-      //   html.window.location.reload();
-      // }
-      return '';
-    }
-  }
 
   Future<void> saveidNotif(int value) async {
     await storage.setInt('idNotif', value);

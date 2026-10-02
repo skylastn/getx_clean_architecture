@@ -2,7 +2,7 @@ import 'dart:io';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class LocalController extends GetxController {
+class LocalLogic extends GetxController {
   late SharedPreferences storage;
   late Directory dir;
   String dbFolder = '/IsarDb';

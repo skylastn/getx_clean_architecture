@@ -1,7 +1,7 @@
 import 'package:dartz/dartz.dart';
-import 'package:sample_app/app/common/exception.dart';
-import 'package:sample_app/features/core/infrastructure/data_source/komik_remote_data_source.dart';
-import 'package:sample_app/features/core/infrastructure/model/komik_response.dart';
+import '../../../../app/common/exception.dart';
+import '../data_source/komik_remote_data_source.dart';
+import '../../domain/model/response/komik_response.dart';
 
 import '../../domain/interface/komik_repository_base.dart';
 

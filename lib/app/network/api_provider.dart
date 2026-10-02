@@ -337,14 +337,6 @@ class ApiProvider {
     };
   }
 
-  Map<String, String>? headerFCM() {
-    return {
-      // 'Authorization': 'key=$apiKeyFcm',
-      'Content-Type': 'application/json',
-      'Accept': 'application/json',
-    };
-  }
-
   Map<String, String>? headerImage() {
     return {
       'Authorization': 'Bearer ${Session().getToken()}',
@@ -356,9 +348,6 @@ class ApiProvider {
   Map<String, String>? headerCheck({int choice = 0}) {
     if (choice == 1) {
       return headerLogin();
-    }
-    if (choice == 2) {
-      return headerFCM();
     }
     return null;
   }

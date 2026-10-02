@@ -3,13 +3,12 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import '../app/global/controller/local_controller.dart';
-import '../utility/shared/notif/notif.dart';
+import '../app/global/logic/local_logic.dart';
+import '../shared/notif/notif.dart';
 import 'app_component.dart';
 import 'app_pages.dart';
 import 'app_store_application.dart';
 import 'dependency_injection.dart';
-import 'firebase_traits.dart';
 
 enum EnvType {
   development,
@@ -38,8 +37,6 @@ class Env {
   String get websocket => '';
 
   String get callinkChat => '';
-
-  String get vapidKey => '';
 
   String get tnc => '';
 
@@ -70,15 +67,14 @@ class Env {
         if (GetPlatform.isWeb) {
           return;
         }
-        // FirebaseCrashlytics.instance.recordError(error, stack);
       },
     );
   }
 
   Future<void> initAllPackage() async {
     WidgetsFlutterBinding.ensureInitialized();
-    Get.put(LocalController(), permanent: true);
-    await Get.find<LocalController>().initLocalDatabase();
+    Get.put(LocalLogic(), permanent: true);
+    await Get.find<LocalLogic>().initLocalDatabase();
     if (!GetPlatform.isWeb) {
       /// Set status bar icon color
       SystemChrome.setSystemUIOverlayStyle(
@@ -95,7 +91,6 @@ class Env {
     var initialRoute = AppPages.INITIAL;
 
     await Notif().initNotif();
-    await FirebaseTraits().init();
 
     await DenpendencyInjection.init();
     // await initializeDateFormatting('id_ID', null);
