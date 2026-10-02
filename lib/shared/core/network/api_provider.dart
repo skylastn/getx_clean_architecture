@@ -1,354 +1,242 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:developer';
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
-import '../env.dart';
 import 'package:http/http.dart' as http;
-import '../session.dart';
-import 'http_config.dart';
+import '../../config/app_config.dart';
 import '../domain/model/network_status_model.dart';
 import '../domain/model/response_model.dart';
+import '../env.dart';
+import '../presentation/logic/shared_preferences_logic.dart';
+import '../session.dart';
+import 'http_config.dart';
+
+enum HttpMethod { get, post, put, patch, delete }
+
+enum ProviderType { membership, pos }
 
 class ApiProvider {
-  String url = Env.value.beUrl;
-  var client = http.Client();
-  int timeOut = 120;
+  final client = http.Client();
+  final String baseUrl;
+  final int timeoutSeconds;
 
-  Future<ResponseModel> postApi(String urlPrefix,
-      {Object? body, bool header = true}) async {
-    var urlS = url + urlPrefix;
-    if (kDebugMode) {
-      Get.log('ambil data Post : $urlS');
-      Get.log(body.toString());
+  ApiProvider({String? baseUrl, int? timeoutSeconds})
+      : baseUrl = baseUrl ?? Env.value.beUrl,
+        timeoutSeconds = timeoutSeconds ?? 120;
+
+  String? get token {
+    if (Get.isRegistered<SharedPreferencesLogic>()) {
+      final localSession = Get.find<SharedPreferencesLogic>();
+      return baseUrl == AppConfig.posBaseUrl
+          ? localSession.getTokenPOS
+          : localSession.getToken;
     }
+    return Session().getToken();
+  }
+
+  /// Main handler for JSON requests
+  Future<ResponseModel> request(
+    HttpMethod method,
+    String endpoint, {
+    Map<String, dynamic>? query,
+    Object? body,
+    Map<String, String>? headers,
+  }) async {
+    final fullUrlString = baseUrl.endsWith('/') || endpoint.startsWith('/')
+        ? '$baseUrl$endpoint'
+        : '$baseUrl/$endpoint';
+    final url = Uri.parse(fullUrlString)
+        .replace(queryParameters: query?.map((k, v) => MapEntry(k, '$v')));
+
+    final baseHeader = await headerLogin();
+    if (headers != null) baseHeader.addAll(headers);
+
+    if (baseUrl == AppConfig.posBaseUrl &&
+        body is Map<String, dynamic> &&
+        token != null) {
+      body['access_token'] = token;
+    }
+
+    if (kDebugMode) {
+      log('[${method.name.toUpperCase()}] $url');
+      if (body != null) log('Body: ${jsonEncode(body)}');
+    }
+
     try {
+      final clientUsed =
+          !kIsWeb ? TrustAllCertificates.getInstance.sslClient() : client;
+
       late http.Response response;
-      if (!kIsWeb) {
-        response = await TrustAllCertificates.getInstance
-            .sslClient()
-            .post(
-              Uri.parse(urlS),
-              body: jsonEncode(body),
-              headers: (header) ? headerLogin() : headerNormal(),
-            )
-            .timeout(Duration(seconds: timeOut));
-      } else {
-        response = await client
-            .post(
-              Uri.parse(urlS),
-              body: jsonEncode(body),
-              headers: (header) ? headerLogin() : headerNormal(),
-            )
-            .timeout(Duration(seconds: timeOut));
+
+      switch (method) {
+        case HttpMethod.get:
+          response = await clientUsed
+              .get(url, headers: baseHeader)
+              .timeout(Duration(seconds: timeoutSeconds));
+          break;
+        case HttpMethod.post:
+          response = await clientUsed
+              .post(url, headers: baseHeader, body: jsonEncode(body))
+              .timeout(Duration(seconds: timeoutSeconds));
+          break;
+        case HttpMethod.put:
+          response = await clientUsed
+              .put(url, headers: baseHeader, body: jsonEncode(body))
+              .timeout(Duration(seconds: timeoutSeconds));
+          break;
+        case HttpMethod.patch:
+          response = await clientUsed
+              .patch(url, headers: baseHeader, body: jsonEncode(body))
+              .timeout(Duration(seconds: timeoutSeconds));
+          break;
+        case HttpMethod.delete:
+          response = await clientUsed
+              .delete(url, headers: baseHeader, body: jsonEncode(body))
+              .timeout(Duration(seconds: timeoutSeconds));
+          break;
       }
 
       if (kDebugMode) {
-        Get.log('response : ${response.body}');
-        Get.log('statuscode : ${response.statusCode}');
+        log('Response (${response.statusCode}) => ${response.body}');
       }
+
       if (NetworkStatusModel.isStatusOkay(response.statusCode)) {
-        return ResponseModel(
-          isError: false,
-          result: response,
-          msg: 'Success Post Data',
-        );
+        return ResponseModel(isError: false, result: response, msg: 'Success');
       }
+
       if (NetworkStatusModel.isUnauthorized(response.statusCode)) {
         return ResponseModel(
-          isError: true,
-          result: response,
-          msg: 'Unauthorized',
-        );
+            isError: true, result: response, msg: 'Unauthorized');
       }
-      String msg = jsonDecode(response.body)['message'] ?? 'Server Error';
-      return ResponseModel(
-        isError: true,
-        result: response,
-        msg: msg,
-      );
+
+      final decoded = jsonDecode(response.body);
+      final msg =
+          decoded['error_message'] ?? decoded['message'] ?? 'Server Error';
+      return ResponseModel(isError: true, result: response, msg: msg);
     } on TimeoutException {
       throw 'Connection Timeout, please check your connection';
     } catch (e) {
-      if (kDebugMode) {
-        Get.log('failed $urlPrefix : $e');
-      }
+      log('Request failed: $e');
       return ResponseModel(isError: true, result: null, msg: e.toString());
     }
   }
 
-  Future<ResponseModel> getApi(String urlPrefix,
-      {bool header = true, Map<String, dynamic>? query}) async {
-    var urlS = url + urlPrefix;
-    if (kDebugMode) {
-      Get.log('ambil data Get : $urlS');
-    }
-    if (query != null && query.isNotEmpty) {
-      int tempCount = 0;
-      query.forEach((key, value) {
-        if (tempCount == 0) {
-          urlS = '$urlS?$key=$value';
-        } else {
-          urlS = '$urlS&$key=$value';
-        }
-        tempCount++;
-      });
-    }
+  Future<ResponseModel> get(String endpoint,
+          {Map<String, dynamic>? query, Map<String, String>? headers}) =>
+      request(HttpMethod.get, endpoint, query: query, headers: headers);
+
+  Future<ResponseModel> post(String endpoint,
+          {Object? body, Map<String, String>? headers}) =>
+      request(HttpMethod.post, endpoint, body: body, headers: headers);
+
+  Future<ResponseModel> put(String endpoint,
+          {Object? body, Map<String, String>? headers}) =>
+      request(HttpMethod.put, endpoint, body: body, headers: headers);
+
+  Future<ResponseModel> patch(String endpoint,
+          {Object? body, Map<String, String>? headers}) =>
+      request(HttpMethod.patch, endpoint, body: body, headers: headers);
+
+  Future<ResponseModel> delete(String endpoint,
+          {Object? body, Map<String, String>? headers}) =>
+      request(HttpMethod.delete, endpoint, body: body, headers: headers);
+
+  /// Upload Image (Single or Multiple)
+  Future<ResponseModel> uploadImage(
+    String endpoint, {
+    List<http.MultipartFile> files = const [],
+    Map<String, String>? fields,
+    Map<String, String>? headers,
+  }) async {
+    final fullUrlString = baseUrl.endsWith('/') || endpoint.startsWith('/')
+        ? '$baseUrl$endpoint'
+        : '$baseUrl/$endpoint';
+    final url = Uri.parse(fullUrlString);
+    final baseHeader = await headerImage();
+    if (headers != null) baseHeader.addAll(headers);
+
     try {
-      late http.Response response;
-      if (!kIsWeb) {
-        response = await TrustAllCertificates.getInstance
-            .sslClient()
-            .get(
-              Uri.parse(urlS),
-              // query: query,
-              headers: (header) ? headerLogin() : headerNormal(),
-            )
-            .timeout(Duration(seconds: timeOut));
-      } else {
-        response = await client
-            .get(
-              Uri.parse(urlS),
-              // query: query,
-              headers: (header) ? headerLogin() : headerNormal(),
-            )
-            .timeout(Duration(seconds: timeOut));
-      }
+      final request = http.MultipartRequest('POST', url);
+      request.headers.addAll(baseHeader);
+
+      if (fields != null) request.fields.addAll(fields);
+      if (files.isNotEmpty) request.files.addAll(files);
+
+      final clientUsed =
+          !kIsWeb ? TrustAllCertificates.getInstance.sslClient() : client;
+
+      final streamedResponse = await clientUsed
+          .send(request)
+          .timeout(Duration(seconds: timeoutSeconds));
+
+      final response = await http.Response.fromStream(streamedResponse);
 
       if (kDebugMode) {
-        Get.log('response : ${response.body}');
-        Get.log('statuscode : ${response.statusCode}');
+        log('Upload Response (${response.statusCode}) => ${response.body}');
       }
+
       if (NetworkStatusModel.isStatusOkay(response.statusCode)) {
         return ResponseModel(
-          isError: false,
-          result: response,
-          msg: 'Success Get Data',
-        );
+            isError: false, result: response, msg: 'Upload success');
       }
-      if (NetworkStatusModel.isUnauthorized(response.statusCode)) {
-        return ResponseModel(
-          isError: true,
-          result: response,
-          msg: 'Unauthorized',
-        );
-      }
-      String msg = jsonDecode(response.body)['message'] ?? 'Server Error';
-      return ResponseModel(
-        isError: true,
-        result: response,
-        msg: msg,
-      );
+
+      final decoded = jsonDecode(response.body);
+      final msg =
+          decoded['error_message'] ?? decoded['message'] ?? 'Upload failed';
+      return ResponseModel(isError: true, result: response, msg: msg);
     } on TimeoutException {
-      throw 'Connection Timeout, please check your connection';
+      throw 'Upload Timeout, please check your connection';
     } catch (e) {
-      if (kDebugMode) {
-        Get.log('failed $urlPrefix : $e');
-      }
+      log('Upload failed: $e');
       return ResponseModel(isError: true, result: null, msg: e.toString());
     }
+  }
+
+  /// Legacy methods for backward compatibility with features/core
+  Future<ResponseModel> getApi(String urlPrefix,
+      {bool header = true, Map<String, dynamic>? query}) async {
+    return request(
+      HttpMethod.get,
+      urlPrefix,
+      query: query,
+      headers: (header) ? await headerLogin() : headerNormal(),
+    );
+  }
+
+  Future<ResponseModel> postApi(String urlPrefix,
+      {Object? body, bool header = true}) async {
+    return request(
+      HttpMethod.post,
+      urlPrefix,
+      body: body,
+      headers: (header) ? await headerLogin() : headerNormal(),
+    );
   }
 
   Future<ResponseModel> patchApi(String urlPrefix,
       {Object? body, bool header = true}) async {
-    var urlS = url + urlPrefix;
-    if (kDebugMode) {
-      Get.log('ambil data Post : $urlS');
-      Get.log(body.toString());
-    }
-    try {
-      late http.Response response;
-      if (!kIsWeb) {
-        response = await TrustAllCertificates.getInstance
-            .sslClient()
-            .patch(
-              Uri.parse(urlS),
-              body: jsonEncode(body),
-              headers: (header) ? headerLogin() : headerNormal(),
-            )
-            .timeout(Duration(seconds: timeOut));
-      } else {
-        response = await client
-            .patch(
-              Uri.parse(urlS),
-              body: jsonEncode(body),
-              headers: (header) ? headerLogin() : headerNormal(),
-            )
-            .timeout(Duration(seconds: timeOut));
-      }
-
-      if (kDebugMode) {
-        Get.log('response : ${response.body}');
-        Get.log('statuscode : ${response.statusCode}');
-      }
-      if (NetworkStatusModel.isStatusOkay(response.statusCode)) {
-        return ResponseModel(
-          isError: false,
-          result: response,
-          msg: 'Success Get Data',
-        );
-      }
-      if (NetworkStatusModel.isUnauthorized(response.statusCode)) {
-        return ResponseModel(
-          isError: true,
-          result: response,
-          msg: 'Unauthorized',
-        );
-      }
-      String msg = jsonDecode(response.body)['message'] ?? 'Server Error';
-      return ResponseModel(
-        isError: true,
-        result: response,
-        msg: msg,
-      );
-    } on TimeoutException {
-      throw 'Connection Timeout, please check your connection';
-    } catch (e) {
-      if (kDebugMode) {
-        Get.log('failed $urlPrefix : $e');
-      }
-      return ResponseModel(isError: true, result: null, msg: e.toString());
-    }
+    return request(
+      HttpMethod.patch,
+      urlPrefix,
+      body: body,
+      headers: (header) ? await headerLogin() : headerNormal(),
+    );
   }
 
-  Future<ResponseModel> deleteApi(
-    String urlPrefix,
-    Map<String, dynamic> body, {
-    bool header = true,
-  }) async {
-    var urlS = url + urlPrefix;
-    if (kDebugMode) {
-      Get.log('ambil data Delete : $urlS');
-      Get.log(body.toString());
-    }
-    try {
-      late http.Response response;
-      if (!kIsWeb) {
-        response = await TrustAllCertificates.getInstance
-            .sslClient()
-            .delete(
-              Uri.parse(urlS),
-              body: jsonEncode(body),
-              headers: (header) ? headerLogin() : headerNormal(),
-            )
-            .timeout(Duration(seconds: timeOut));
-      } else {
-        response = await client
-            .delete(
-              Uri.parse(urlS),
-              body: jsonEncode(body),
-              headers: (header) ? headerLogin() : headerNormal(),
-            )
-            .timeout(Duration(seconds: timeOut));
-      }
+  Future<Map<String, String>> headerLogin() async => {
+        'Authorization': 'Bearer ${token ?? ''}',
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+      };
 
-      if (kDebugMode) {
-        Get.log('response : ${response.body}');
-        Get.log('statuscode : ${response.statusCode}');
-      }
-      if (NetworkStatusModel.isStatusOkay(response.statusCode)) {
-        return ResponseModel(
-          isError: false,
-          result: response,
-          msg: 'Success Get Data',
-        );
-      }
-      if (NetworkStatusModel.isUnauthorized(response.statusCode)) {
-        return ResponseModel(
-          isError: true,
-          result: response,
-          msg: 'Unauthorized',
-        );
-      }
-      String msg = jsonDecode(response.body)['message'] ?? 'Server Error';
-      return ResponseModel(
-        isError: true,
-        result: response,
-        msg: msg,
-      );
-    } on TimeoutException {
-      throw 'Connection Timeout, please check your connection';
-    } catch (e) {
-      if (kDebugMode) {
-        Get.log('failed $urlPrefix : $e');
-      }
-      return ResponseModel(isError: true, result: null, msg: e.toString());
-    }
-  }
+  Map<String, String> headerNormal() => {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+      };
 
-  // Future<ResponseModel> postApiWithFiles(String urlPrefix,
-  //     {Object? body, bool header = true}) async {
-  //   var urlS = url + urlPrefix;
-  //   if (kDebugMode) {
-  //     Get.log('ambil data Post : $urlS');
-  //     Get.log(body.toString());
-  //   }
-  //   try {
-  //     final Response response = await connect.post(
-  //       urlS,
-  //       body,
-  //       headers: (header) ? await headerImage() : headerNormal(),
-  //     );
-  //     if (kDebugMode) {
-  //       Get.log('response : ${response.bodyString}');
-  //       Get.log('statuscode : ${response.statusCode}');
-  //     }
-  //     if (response.isOk) {
-  //       return ResponseModel(
-  //         isError: false,
-  //         result: response,
-  //         msg: 'Success Get Data',
-  //       );
-  //     }
-  //     if (response.unauthorized) {
-  //       return ResponseModel(
-  //         isError: true,
-  //         result: response,
-  //         msg: 'Unauthorized',
-  //       );
-  //     }
-  //     return ResponseModel(
-  //       isError: true,
-  //       result: response,
-  //       msg: jsonDecode(response.bodyString ?? '''{}''')['message'] ??
-  //           'Server Error',
-  //     );
-  //   } on TimeoutException {
-  //     throw 'Connection Timeout, please check your connection';
-  //   } catch (e) {
-  //     if (kDebugMode) {
-  //       Get.log('failed $urlPrefix : $e');
-  //     }
-  //     return ResponseModel(isError: true, result: null, msg: e.toString());
-  //   }
-  // }
-
-  Map<String, String>? headerLogin() {
-    return {
-      'Authorization': 'Bearer ${Session().getToken()}',
-      'Content-Type': 'application/json',
-      'Accept': 'application/json',
-    };
-  }
-
-  Map<String, String>? headerNormal() {
-    return {
-      'Content-Type': 'application/json',
-      'Accept': 'application/json',
-    };
-  }
-
-  Map<String, String>? headerImage() {
-    return {
-      'Authorization': 'Bearer ${Session().getToken()}',
-      // 'Content-Type': 'application/json',
-      // 'Accept': 'application/json',
-    };
-  }
-
-  Map<String, String>? headerCheck({int choice = 0}) {
-    if (choice == 1) {
-      return headerLogin();
-    }
-    return null;
-  }
+  Future<Map<String, String>> headerImage() async => {
+        'Authorization': 'Bearer ${token ?? ''}',
+        'Accept': 'application/json',
+      };
 }

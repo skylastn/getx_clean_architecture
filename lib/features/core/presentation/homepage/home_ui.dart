@@ -8,6 +8,7 @@ import 'home_logic.dart';
 import 'home_state.dart';
 
 class HomePage extends GetView<HomeLogic> {
+  static const String routeName = '/home';
   HomePage({super.key});
   final state = Get.find<HomeLogic>().state;
   @override

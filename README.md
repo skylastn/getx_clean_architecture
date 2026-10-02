@@ -25,23 +25,26 @@ A production-ready Flutter template demonstrating **Clean Architecture** powered
 ```text
 lib/
 ├── main.dart                     # Application entrypoint
-├── features/core/                # Feature module (Clean Architecture)
-│   ├── application/              # Use cases / services orchestration
-│   ├── domain/                   # Business entities & repository interfaces
-│   │   ├── interface/            # Abstract contracts (KomikRepositoryBase)
-│   │   └── model/                # Request & response data models
-│   ├── infrastructure/           # Data sources & repository implementations
-│   │   ├── data_source/          # Remote HTTP / REST data sources
-│   │   └── repository/           # Repository implementations
-│   └── presentation/             # UI layer
-│       └── homepage/             # HomeLogic + HomeState + HomePage (UI)
+├── features/
+│   ├── auth/                     # Authentication & User feature module
+│   │   ├── application/          # AuthService, UserService, ForgotPasswordService
+│   │   ├── domain/               # Repositories interfaces & auth/user models
+│   │   ├── infrastructure/       # Remote data sources & repositories
+│   │   └── presentation/         # Login, Register, Forgot, OTP, New Password, Splash
+│   └── core/                     # Sample feature module (Clean Architecture)
+│       ├── application/          # Use cases / services orchestration
+│       ├── domain/               # Business entities & repository interfaces
+│       ├── infrastructure/       # Data sources & repository implementations
+│       └── presentation/         # UI layer (HomeLogic + HomeState + HomePage)
 └── shared/                       # Shared modules & core framework utilities
     ├── common/                   # Shared exceptions & error handling
+    ├── config/                   # App & HTTP configuration
     ├── core/                     # Shared core architecture
     │   ├── domain/model/         # Core domain models (content, response, status)
-    │   ├── network/              # HTTP clients & API providers
-    │   ├── presentation/logic/   # Core GetX logic (GlobalLogic, LocalLogic)
+    │   ├── network/              # HTTP clients & API providers (membership & POS)
+    │   ├── presentation/logic/   # GlobalLogic, LocalLogic, SharedPreferencesLogic
     │   └── ...                   # Framework bootstrap, routes, env, DI, session
+    ├── extension/                # String extensions
     ├── log/                      # Logger wrapper
     ├── notif/                    # Local notifications service
     ├── size/                     # Device viewport & responsive utilities
