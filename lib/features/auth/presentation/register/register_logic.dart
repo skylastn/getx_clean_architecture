@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import '../../../../shared/config/app_config.dart';
 import '../../application/auth_service.dart';
 import '../verify/otp/verify_otp_page.dart';
-import '../controller/auth_logic.dart';
+import '../../../../shared/core/presentation/logic/auth_logic.dart';
 
 class RegisterLogic extends GetxController {
   final AuthService _authService = AuthService();

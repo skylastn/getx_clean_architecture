@@ -2,7 +2,7 @@ import 'package:get/get.dart';
 
 import '../../../../shared/core/presentation/logic/shared_preferences_logic.dart';
 import '../../../core/presentation/homepage/home_ui.dart';
-import '../controller/auth_logic.dart';
+import '../../../../shared/core/presentation/logic/auth_logic.dart';
 import '../login/login_page.dart';
 
 class SplashLogic extends GetxController {

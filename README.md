@@ -42,7 +42,7 @@ lib/
     ├── core/                     # Shared core architecture
     │   ├── domain/model/         # Core domain models (content, response, status)
     │   ├── network/              # HTTP clients & API providers (membership & POS)
-    │   ├── presentation/logic/   # GlobalLogic, LocalLogic, SharedPreferencesLogic
+    │   ├── presentation/logic/   # AuthLogic, GlobalLogic, LocalLogic, SharedPreferencesLogic
     │   └── ...                   # Framework bootstrap, routes, env, DI, session
     ├── extension/                # String extensions
     ├── log/                      # Logger wrapper

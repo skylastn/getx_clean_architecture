@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
-import '../../domain/model/response/cabang/sub_cabang_user_response.dart';
-import '../../domain/model/response/user/user_response.dart';
-import '../../application/auth_service.dart';
-import '../../application/user_service.dart';
-import '../../../../shared/core/presentation/logic/shared_preferences_logic.dart';
-import '../login/login_page.dart';
+import '../../../../features/auth/domain/model/response/cabang/sub_cabang_user_response.dart';
+import '../../../../features/auth/domain/model/response/user/user_response.dart';
+import '../../../../features/auth/application/auth_service.dart';
+import '../../../../features/auth/application/user_service.dart';
+import 'shared_preferences_logic.dart';
+import '../../../../features/auth/presentation/login/login_page.dart';
 
 class AuthLogic extends GetxController {
   var user = Rxn<UserResponse>();

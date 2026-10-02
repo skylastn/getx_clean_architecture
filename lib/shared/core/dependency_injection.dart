@@ -9,7 +9,7 @@ import '../../features/auth/infrastructure/data_source/user_remote_data_source.d
 import '../../features/auth/infrastructure/repository/auth_repository.dart';
 import '../../features/auth/infrastructure/repository/forgot_password_repository.dart';
 import '../../features/auth/infrastructure/repository/user_repository.dart';
-import '../../features/auth/presentation/controller/auth_logic.dart';
+import 'presentation/logic/auth_logic.dart';
 import '../config/app_config.dart';
 import 'network/api_provider.dart';
 import 'presentation/logic/global_logic.dart';

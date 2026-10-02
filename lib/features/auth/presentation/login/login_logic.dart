@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../application/auth_service.dart';
 import '../../../core/presentation/homepage/home_ui.dart';
-import '../controller/auth_logic.dart';
+import '../../../../shared/core/presentation/logic/auth_logic.dart';
 import '../verify/otp/verify_otp_page.dart';
 
 class LoginLogic extends GetxController {
