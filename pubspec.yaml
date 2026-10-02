@@ -52,17 +52,17 @@ flavorizr:
         applicationId: id.my.skydemo.komik.dev
         variables:
           FLUTTER_TARGET:
-            value: lib/main_dev.dart
+            value: lib/main.dart
       linux:
         bundleId: id.my.skydemo.komik.dev
         variables:
           FLUTTER_TARGET:
-            value: lib/main_dev.dart
+            value: lib/main.dart
       windows:
         bundleId: id.my.skydemo.komik.dev
         variables:
           FLUTTER_TARGET:
-            value: lib/main_dev.dart
+            value: lib/main.dart
     production:
       app:
         name: SkyKomik
@@ -70,14 +70,14 @@ flavorizr:
         applicationId: id.my.skydemo.komik
         variables:
           FLUTTER_TARGET:
-            value: lib/main_prod.dart
+            value: lib/main.dart
       linux:
         bundleId: id.my.skydemo.komik
         variables:
           FLUTTER_TARGET:
-            value: lib/main_prod.dart
+            value: lib/main.dart
       windows:
         bundleId: id.my.skydemo.komik
         variables:
           FLUTTER_TARGET:
-            value: lib/main_prod.dart
+            value: lib/main.dart

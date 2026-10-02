@@ -15,26 +15,47 @@ enum EnvType {
   production,
 }
 
+// Config via --dart-define (defaults = development):
+// flutter run --dart-define=APP_ENV=production --dart-define=APP_NAME=SkyKomik ...
 class Env {
   static late Env value;
 
-  String get appName => '';
+  static const _appEnv = String.fromEnvironment(
+    'APP_ENV',
+    defaultValue: 'development',
+  );
 
-  String get appUsername => '';
+  String get appName =>
+      const String.fromEnvironment('APP_NAME', defaultValue: 'SkyKomik Dev');
 
-  String get beUrl => '';
+  String get appUsername =>
+      const String.fromEnvironment('APP_USERNAME', defaultValue: '');
 
-  String get baseUrl => '';
+  String get beUrl => const String.fromEnvironment(
+        'BE_URL',
+        defaultValue: 'https://be.demo.my.id',
+      );
 
-  String get imageUrl => '';
+  String get baseUrl => const String.fromEnvironment(
+        'BASE_URL',
+        defaultValue: 'https://demo.id',
+      );
 
-  String get logo => '';
+  String get imageUrl => const String.fromEnvironment(
+        'IMAGE_URL',
+        defaultValue: 'https://demo.id/file/',
+      );
+
+  String get logo => 'assets/images/logo.png';
 
   String get articleUrl => '';
 
   String get socketUrl => '';
 
-  String get websocket => '';
+  String get websocket => const String.fromEnvironment(
+        'WEBSOCKET_URL',
+        defaultValue: 'wss://demo.id/websocket',
+      );
 
   String get callinkChat => '';
 
@@ -42,12 +63,15 @@ class Env {
 
   Color get primarySwatch => Colors.teal;
 
-  EnvType get environmentType => EnvType.development;
+  EnvType get environmentType => _appEnv == 'production'
+      ? EnvType.production
+      : EnvType.development;
 
   // Database Config
   int get dbVersion => 1;
 
-  String get dbName => '';
+  String get dbName =>
+      const String.fromEnvironment('DB_NAME', defaultValue: 'DemoAppsDev');
 
   Env() {
     value = this;

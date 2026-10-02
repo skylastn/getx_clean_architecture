@@ -44,6 +44,7 @@ app.*.map.json
 .fvm/flutter_sdk
 
 # Credential
+.env
 BUILDNUMBER
 FIREBASE_TOKEN
 linux/flutter/generated_plugin_registrant.cc

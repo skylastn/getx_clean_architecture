@@ -1,3 +1,3 @@
-import 'main_prod.dart';
+import 'core/env.dart';
 
-void main() => Production();
+void main() => Env();
