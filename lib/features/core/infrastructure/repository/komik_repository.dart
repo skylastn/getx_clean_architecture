@@ -1,5 +1,5 @@
 import 'package:dartz/dartz.dart';
-import '../../../../app/common/exception.dart';
+import '../../../../shared/common/exception.dart';
 import '../data_source/komik_remote_data_source.dart';
 import '../../domain/model/response/komik_response.dart';
 

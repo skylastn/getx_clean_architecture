@@ -25,18 +25,6 @@ A production-ready Flutter template demonstrating **Clean Architecture** powered
 ```text
 lib/
 ├── main.dart                     # Application entrypoint
-├── app/                          # App-level styles, network, & global logic
-│   ├── common/                   # Shared exceptions & failures
-│   ├── global/                   # App-wide logic (GlobalLogic, LocalLogic) & models
-│   ├── network/                  # HTTP clients, interceptors, & API providers
-│   └── theme/                    # Color schemes, typography, & styling
-├── core/                         # Framework glue & environment bootstrap
-│   ├── app_component.dart        # Root GetMaterialApp widget
-│   ├── app_pages.dart            # Route definitions & page bindings
-│   ├── app_routes.dart           # Route name constants
-│   ├── dependency_injection.dart # Initial dependency injector
-│   ├── env.dart                  # Config loaded via String.fromEnvironment
-│   └── session.dart              # SharedPreferences session helper
 ├── features/core/                # Feature module (Clean Architecture)
 │   ├── application/              # Use cases / services orchestration
 │   ├── domain/                   # Business entities & repository interfaces
@@ -47,10 +35,17 @@ lib/
 │   │   └── repository/           # Repository implementations
 │   └── presentation/             # UI layer
 │       └── homepage/             # HomeLogic + HomeState + HomePage (UI)
-└── shared/                       # Reusable domain-agnostic utilities
+└── shared/                       # Shared modules & core framework utilities
+    ├── common/                   # Shared exceptions & error handling
+    ├── core/                     # Shared core architecture
+    │   ├── domain/model/         # Core domain models (content, response, status)
+    │   ├── network/              # HTTP clients & API providers
+    │   ├── presentation/logic/   # Core GetX logic (GlobalLogic, LocalLogic)
+    │   └── ...                   # Framework bootstrap, routes, env, DI, session
     ├── log/                      # Logger wrapper
     ├── notif/                    # Local notifications service
     ├── size/                     # Device viewport & responsive utilities
+    ├── theme/                    # Color constants & styling helpers
     └── widget/                   # Reusable mobile layout widgets
 ```
 

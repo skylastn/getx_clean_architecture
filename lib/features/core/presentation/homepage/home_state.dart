@@ -1,4 +1,4 @@
-import '../../../../app/global/model/content_model.dart';
+import '../../../../shared/core/domain/model/content_model.dart';
 import '../../domain/model/response/komik_response.dart';
 
 class HomeState {

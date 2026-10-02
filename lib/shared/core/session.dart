@@ -1,5 +1,5 @@
 import 'package:flutter/foundation.dart';
-import '../app/global/logic/local_logic.dart';
+import 'presentation/logic/local_logic.dart';
 import 'package:get/get.dart';
 
 class Session {

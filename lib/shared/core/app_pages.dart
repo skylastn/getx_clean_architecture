@@ -2,8 +2,8 @@
 
 import 'package:get/get.dart';
 
-import '../features/core/presentation/homepage/home_binding.dart';
-import '../features/core/presentation/homepage/home_ui.dart';
+import '../../features/core/presentation/homepage/home_binding.dart';
+import '../../features/core/presentation/homepage/home_ui.dart';
 
 part 'app_routes.dart';
 

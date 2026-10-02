@@ -2,12 +2,12 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
-import '../../core/env.dart';
+import '../env.dart';
 import 'package:http/http.dart' as http;
-import '../../core/session.dart';
+import '../session.dart';
 import 'http_config.dart';
-import 'model/network_status_model.dart';
-import 'model/response_model.dart';
+import '../domain/model/network_status_model.dart';
+import '../domain/model/response_model.dart';
 
 class ApiProvider {
   String url = Env.value.beUrl;

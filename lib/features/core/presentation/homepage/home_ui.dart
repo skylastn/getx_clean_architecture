@@ -1,9 +1,9 @@
 import 'package:carousel_slider_x/carousel_slider_x.dart';
 import 'package:flutter/material.dart';
-import '../../../../app/global/model/content_model.dart';
+import '../../../../shared/core/domain/model/content_model.dart';
 import '../../../../shared/widget/mobile_size_widget.dart';
 import 'package:get/get.dart';
-import '../../../../app/theme/style.dart';
+import '../../../../shared/theme/style.dart';
 import 'home_logic.dart';
 import 'home_state.dart';
 

@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import '../features/core/infrastructure/repository/komik_repository.dart';
+import '../../features/core/infrastructure/repository/komik_repository.dart';
 
 class AppBinding extends Bindings {
   @override

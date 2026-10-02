@@ -1,6 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:get/instance_manager.dart';
-import '../../../app/common/exception.dart';
+import '../../../../shared/common/exception.dart';
 import '../domain/interface/komik_repository_base.dart';
 import '../domain/model/response/komik_response.dart';
 import '../infrastructure/repository/komik_repository.dart';

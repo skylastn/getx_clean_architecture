@@ -1,8 +1,8 @@
 import 'dart:convert';
 
 import 'package:dartz/dartz.dart';
-import '../../../../app/common/exception.dart';
-import '../../../../app/network/api_provider.dart';
+import '../../../../shared/common/exception.dart';
+import '../../../../shared/core/network/api_provider.dart';
 
 import '../../domain/model/response/komik_response.dart';
 

@@ -1,6 +1,6 @@
 import 'package:dartz/dartz.dart';
 
-import '../../../../app/common/exception.dart';
+import '../../../../shared/common/exception.dart';
 import '../../domain/model/response/komik_response.dart';
 
 abstract class KomikRepositoryBase {

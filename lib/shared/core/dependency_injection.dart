@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import '../app/global/logic/global_logic.dart';
+import 'presentation/logic/global_logic.dart';
 // import '../app/global/local_logic.dart';
 
 class DenpendencyInjection {
